@@ -1,4 +1,5 @@
 package com.example.expensetracker.controller;
+import com.example.expensetracker.dto.ExpenseResponseDto;
 import com.example.expensetracker.entity.Expense;
 import com.example.expensetracker.service.ExpenseService;
 import lombok.RequiredArgsConstructor;
@@ -12,14 +13,19 @@ import java.util.List;
 public class ExpenseController {
     private final ExpenseService expenseService;
 
+    //@GetMapping
+    // List<Expense> getAllExpenses(){
+       // return expenseService.getAllExpenses();
+    //}
+
     @GetMapping
-    public List<Expense> getAllExpenses(){
-        return expenseService.getAllExpenses();
+    public List<ExpenseResponseDto> getAllExpenseResponseDto(){
+        return expenseService.getAllExpenseResponseDto();
     }
 
-    @GetMapping("/{id}")
-    public Expense getExpenseById(@PathVariable Long id){
-        return expenseService.getExpenseById(id);
+    @GetMapping("/{id}/dto")
+    public ExpenseResponseDto getExpenseDtoById(@PathVariable Long id){
+        return expenseService.getExpenseDtoById(id);
     }
 
     @PostMapping
