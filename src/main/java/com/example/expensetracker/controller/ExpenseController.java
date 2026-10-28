@@ -1,7 +1,9 @@
 package com.example.expensetracker.controller;
+import com.example.expensetracker.dto.ExpenseRequestDto;
 import com.example.expensetracker.dto.ExpenseResponseDto;
 import com.example.expensetracker.entity.Expense;
 import com.example.expensetracker.service.ExpenseService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +31,7 @@ public class ExpenseController {
     }
 
     @PostMapping
-    public Expense createExpense(@RequestBody Expense expense){
+    public Expense createExpense(@Valid @RequestBody ExpenseRequestDto expense){
         return expenseService.createExpense(expense);
     }
 

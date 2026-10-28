@@ -1,5 +1,6 @@
 package com.example.expensetracker.service;
 
+import com.example.expensetracker.dto.ExpenseRequestDto;
 import com.example.expensetracker.dto.ExpenseResponseDto;
 import com.example.expensetracker.entity.Category;
 import com.example.expensetracker.entity.Expense;
@@ -39,9 +40,16 @@ public class ExpenseService {
                 .collect(Collectors.toList());
     }
 
-    public Expense createExpense(Expense expense){
-        if(expense.getCategory() != null){
-            Long categoryId = expense.getCategory().getId();
+    public Expense createExpense(ExpenseRequestDto expenseDto){
+        Expense expense = new Expense();
+        expense.setTitle(expenseDto.title());
+        expense.setDescription(expenseDto.description());
+        expense.setAmount(expenseDto.amount());
+        expense.setExpenseDate(expenseDto.expenseDate());
+
+
+        if(expenseDto.categoryId() != null){
+            Long categoryId = expenseDto.categoryId();
             Category findCategory = categoryRepository.findById(categoryId).
                     orElseThrow(() -> new RuntimeException("Категория с id " + categoryId + "не найдена"));
             expense.setCategory(findCategory);
