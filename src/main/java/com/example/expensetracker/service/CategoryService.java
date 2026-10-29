@@ -1,6 +1,7 @@
 package com.example.expensetracker.service;
 
 import com.example.expensetracker.entity.Category;
+import com.example.expensetracker.entity.Expense;
 import com.example.expensetracker.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,5 +29,11 @@ public class CategoryService {
 
     public void deleteCategory(Long id) {
         categoryRepository.deleteById(id);
+    }
+
+    public List<Expense> getExpensesByCategoryId(Long categoryId){
+        Category category = categoryRepository.findById(categoryId).
+                orElseThrow(() -> new RuntimeException("Категория с id " + categoryId + " не найдена"));
+        return category.getExpenses();
     }
 }
