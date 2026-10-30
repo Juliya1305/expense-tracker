@@ -2,6 +2,7 @@ package com.example.expensetracker.service;
 
 import com.example.expensetracker.dto.ExpenseRequestDto;
 import com.example.expensetracker.dto.ExpenseResponseDto;
+import com.example.expensetracker.dto.ExpenseUpdateDto;
 import com.example.expensetracker.entity.Category;
 import com.example.expensetracker.entity.Expense;
 import com.example.expensetracker.repository.CategoryRepository;
@@ -73,6 +74,26 @@ public class ExpenseService {
                 categoryName
         );
     }
+
+    public ExpenseResponseDto updateExpense(Long id, ExpenseUpdateDto dto) {
+        Expense expense = expenseRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Расход с id " + id + " не найден"));
+
+        if (dto.title() != null) expense.setTitle(dto.title());
+        if (dto.amount() != null) expense.setAmount(dto.amount());
+        if (dto.description() != null) expense.setDescription(dto.description());
+        if (dto.expenseDate() != null) expense.setExpenseDate(dto.expenseDate());
+
+        if (dto.categoryId() != null) {
+            Category category = categoryRepository.findById(dto.categoryId())
+                    .orElseThrow(() -> new RuntimeException("Категория не найдена"));
+            expense.setCategory(category);
+        }
+
+        Expense savedExpense = expenseRepository.save(expense);
+        return convertToDto(savedExpense);
+    }
+
 
     public void deleteExpense(Long id){
         expenseRepository.deleteById(id);
